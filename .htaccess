@@ -1,0 +1,6 @@
+Options -Indexes
+RewriteEngine On
+RewriteRule ^(docs|application|system|database|scripts|private_uploads)(/|$) - [F,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]

@@ -1,0 +1,7 @@
+<?php $region_labels=array('province'=>'Provinsi','regency'=>'Kabupaten/Kota','district'=>'Kecamatan','village'=>'Desa/Kelurahan');
+$until=$selector_until??'district'; ?>
+<div class="region-cascade" id="<?= h($selector_id) ?>">
+<?php foreach (array('province','regency','district','village') as $i=>$region_level): if ($i>array_search($until,array_keys($region_labels)))break; ?>
+<label><span><?= h($region_labels[$region_level]) ?></span><select name="<?= !empty($selector_all_names)?$region_level.'_id':($region_level===$until?h($selector_name):'region_'.$region_level) ?>" data-region="<?= $region_level ?>" data-label="<?= h(strtolower($region_labels[$region_level])) ?>" data-selected="<?= h($selected_ids[$region_level]??'') ?>" <?= $region_level==='province'?'':'disabled' ?>><option value="">Pilih <?= h(strtolower($region_labels[$region_level])) ?></option><?php if ($region_level==='province'): foreach ($provinces as $province): ?><option value="<?= $province['id'] ?>" data-code="<?= h($province['code']) ?>" <?= (string)($selected_ids['province']??'')===(string)$province['id']?'selected':'' ?>><?= h($province['code'].' · '.$province['name']) ?></option><?php endforeach; endif; ?></select></label>
+<?php endforeach; ?></div>
+<script src="<?= base_url('assets/js/region-cascade.js?v=20261105a') ?>"></script><script>regionCascade(document.getElementById('<?= h($selector_id) ?>'),<?= json_encode(site_url('admin/wilayah/anak')) ?>);</script>
